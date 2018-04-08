@@ -1,0 +1,61 @@
+# instalacja powerline: 
+# https://askubuntu.com/questions/283908/how-can-i-install-and-use-powerline-plugin
+
+pip install --user git+git://github.com/Lokaltog/powerline
+pip install --upgrade pip
+
+sudo apt install gksu
+gksudo gedit ~/.profile
+
+# na końcu pliku dodać:
+
+if [ -d "$HOME/.local/bin" ]; then
+    PATH="$HOME/.local/bin:$PATH"
+fi ]
+
+wget https://github.com/Lokaltog/powerline/raw/develop/font/PowerlineSymbols.otf https://github.com/Lokaltog/powerline/raw/develop/font/10-powerline-symbols.conf
+mkdir -p ~/.fonts/ && mv PowerlineSymbols.otf ~/.fonts/
+fc-cache -vf ~/.fonts
+mkdir -p ~/.config/fontconfig/conf.d/ && mv 10-powerline-symbols.conf ~/.config/fontconfig/conf.d/
+
+gedit ~/.vimrc
+# na końcu pliku dodać:
+
+set rtp+=$HOME/.local/lib/python2.7/site-packages/powerline/bindings/vim/
+
+" Always show statusline
+set laststatus=2
+
+" Use 256 colours (Use this setting only if your terminal supports 256 colours)
+set t_Co=256 " "
+
+gedit ~/.bashrc
+# na końcu pliku dodać:
+
+export TERM=xterm-256color
+
+if [ -f ~/.local/lib/python2.7/site-packages/powerline/bindings/bash/powerline.sh ]; then
+    source ~/.local/lib/python2.7/site-packages/powerline/bindings/bash/powerline.sh
+fi ]
+
+gedit ~/.zshrc
+# na końcu pliku dodać:
+
+if [[ -r ~/.local/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh ]]; then
+    source ~/.local/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh
+fi ]]
+
+gedit ~/.tmux.conf
+# na końcu pliku dodać:
+
+source ~/.local/lib/python2.7/site-packages/powerline/bindings/tmux/powerline.conf
+set-option -g default-terminal "screen-256color"
+
+source .bashrc
+
+
+# instalacja Oh-My-Zshell:
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+# ustawienie bash jako powłoki domyślnej:
+sudo -u slane chsh -s /bin/bash

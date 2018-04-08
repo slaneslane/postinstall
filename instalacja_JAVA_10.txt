@@ -1,0 +1,28 @@
+# instalacja JAVA JDK 10:
+# https://websiteforstudents.com/install-oracle-java-jdk-9-0-4-on-ubuntu-16-04-lts/
+ 
+tar -xvf ~/Pobrane/jdk-10_linux-x64_bin.tar.gz 
+sudo mkdir -p /usr/lib/jvm/jdk-10/
+sudo mv jdk-10*/* /usr/lib/jvm/jdk-10/
+
+# konfigurowanie JAVA:
+sudo update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/jdk-10/bin/java" 1010
+sudo update-alternatives --install "/usr/bin/javac" "javac" "/usr/lib/jvm/jdk-10/bin/javac" 1010
+sudo update-alternatives --install "/usr/bin/javaws" "javaws" "/usr/lib/jvm/jdk-10/bin/javaws" 1010
+
+# tworzenie zmiennych środowiskowych JAVA:
+sudo nano /etc/profile.d/javajdk.sh
+
+# w pliku /etc/profile.d/javajdk.sh dodać na końcu:
+export J2SDKDIR=/usr/lib/jvm/jdk-10
+export J2REDIR=/usr/lib/jvm/jdk-10/jre
+export PATH=$PATH:/usr/lib/jvm/jdk-10/bin:/usr/lib/jvm/jdk-10/db/bin:/usr/lib/jvm/jdk-10/jre/bin
+export JAVA_HOME=/usr/lib/jvm/jdk-10
+export DERBY_HOME=/usr/lib/jvm/jdk-10/db
+
+# na koniec przeładuj edytowany plik:
+source /etc/profile.d/javajdk.sh
+
+# przetestuj instalację poniższymi komendami:
+sudo update-alternatives -config java
+java -version
