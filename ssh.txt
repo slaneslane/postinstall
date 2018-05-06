@@ -1,0 +1,30 @@
+1) Zainstaluj xclip dla poleceń: pbcopy i pbpaste
+sudo apt-get install xclip -y
+
+2) utwórz poniższe aliasy w pliku .bashrc lub w pliku aliasów (jeśli jeszcze nie zostały dodane):
+alias pbcopy="xclip -selection clipboard"
+alias pbpaste="xclip -selection clipboard -o"
+
+3) Wygeneruj lokalnie swój klucz ssh za pomocą poniższego polecenia:
+cd ~/ lub krócej: cd
+ssh-keygen -t rsa -C "<email>"
+
+4) skopiowanie klucza (wkleić w serwerze):
+pbcopy < .ssh/id_rsa.pub
+
+5) dodanie nazwy serwera do pliku known_hosts:
+cd
+ssh -vt <user>@<hostname> 
+np <user>@github.com
+
+Powinno już działać!
+
+EXTRA!
+Tylko jeśli logowanie z SSH działa na serwerze w 100% !!!
+Wyłączenie logowania za pomocą hasła na zdalnym serwerze:
+sudo vim /etc/ssh/ssh_config
+
+zmienić:
+PermitRootLogin without-password
+
+sudo systemctl reload sshd.service
