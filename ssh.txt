@@ -12,6 +12,13 @@ ssh-keygen -t rsa -C "<email>"
 4) skopiowanie klucza (wkleić w serwerze):
 pbcopy < .ssh/id_rsa.pub
 
+dla serwera: 
+lokalnie w .ssh/config i na serwerze w /etc/ssh/sshd_config
+ForwardX11 yes
+uruchom sesję ssh z parametrem -X na końcu
+i dopiero:
+pbcopy < .ssh/id_rsa.pub
+
 5) dodanie nazwy serwera do pliku known_hosts:
 cd
 ssh -vt <user>@<hostname> 
