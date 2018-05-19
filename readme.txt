@@ -5,8 +5,11 @@ sudo apt autoremove
 
 
 # instalacja podstawowych programów:
-sudo apt-get install git curl tree vim gvim tmux zsh python-pip python3-pip gparted synaptic dconf-tools gnome-tweak-tool unity-tweak-tool gnome-games 
+sudo apt-get install git curl tree vim gvim tmux zsh python-pip gparted synaptic dconf-tools gnome-tweak-tool unity-tweak-tool gnome-games 
 
+# instalacja python3.6: https://askubuntu.com/questions/865554/how-do-i-install-python-3-6-using-apt-get
+
+sudo apt-get install python3-pip python3.6-venv
 
 # Zmapuj CapsLock jako escape:
 gsettings set org.gnome.desktop.input-sources xkb-options "['caps:escape']"
