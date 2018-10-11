@@ -14,6 +14,20 @@ sudo apt-get install python3-pip python3.6-venv
 # Zmapuj CapsLock jako escape:
 gsettings set org.gnome.desktop.input-sources xkb-options "['caps:escape']"
 
+or if not working then:
+
+setxkbmap -option <OPTION>
+Where <OPTION> can be for example of:
+
+caps:none – Disables Caps Lock.
+caps:super – Caps Lock becomes an additional Super (aka Win key).
+caps:ctrl_modifier – Caps Lock becomes an additional Ctrl.
+caps:numlock – Caps Lock becomes an additional Num Lock.
+caps:escape – Caps Lock becomes an additional Escape.
+caps:backspace – Caps Lock becomes an additional Backspace.
+caps:swapescape – Caps Lock becomes Escape, and Escape becomes Caps Lock
+
+
 
 # Zainstaluj NeoVim -> osobny plik w tym katalogu.
 
