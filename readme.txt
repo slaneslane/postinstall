@@ -8,8 +8,15 @@ sudo apt autoremove
 sudo apt-get install git curl tree vim gvim tmux zsh python-pip python-dev python-gdal gparted synaptic dconf-tools gnome-tweak-tool unity-tweak-tool gnome-games 
 
 # instalacja python3.6: https://askubuntu.com/questions/865554/how-do-i-install-python-3-6-using-apt-get
-
 sudo apt-get install python3-pip python3.6-venv
+
+# instalacja mysql:
+# https://linuxconfig.org/install-mysql-on-ubuntu-18-04-bionic-beaver-linux
+# then: 
+# mysql-config is in a different package, which can be installed from (again, assuming debian / ubuntu):
+sudo apt-get install libmysqlclient-dev
+# if you are using mariadb, the drop in replacement for mysql, then run
+sudo apt-get install libmariadbclient-dev
 
 # Zmapuj CapsLock jako escape:
 gsettings set org.gnome.desktop.input-sources xkb-options "['caps:escape']"
