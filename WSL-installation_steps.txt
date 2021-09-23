@@ -1,0 +1,115 @@
+WSL Installation:
+------------------------
+sudo apt update && sudo apt upgrade -y
+
+sudo ln -s python3.8 /usr/bin/python
+
+ssh-keygen -t rsa -b 4096
+cat ~/.ssh/id_rsa.pub 
+
+sudo apt install -y vim tmux powerline fonts-powerline git tree mc curl wget net-tools apt-transport-https ca-certificates openssh-server python3-pip python3-venv unzip software-properties-common silversearcher-ag htop net-tools jq libxml2 ansible dconf-cli xsel xdg-utils
+  
+git clone git@github.com:slaneslane/scripts.git
+git clone git@github.com:slaneslane/dotfiles.git
+cd dotfiles/
+git checkout vim_tests
+rm .bashrc 
+ln -s dotfiles/.bashrc .bashrc
+
+# Hints for powerline in WSL and Windows Terminal
+# https://medium.com/@hjgraca/style-your-windows-terminal-and-wsl2-like-a-pro-9a2e1ad4c9d0
+# and:
+# https://cloudlumberjack.com/posts/powerup-your-powershell-prompt/?utm_source=pocket_mylist
+
+export PATH=$PATH:/home/slane/.local/bin
+echo $PATH
+python -m pip install --upgrade pip
+python -m pip install pep8 flake8
+python -m pip install --upgrade autopep8
+
+mkdir ~/.config
+touch ~/.config/flake8
+echo "[flake8]" > ~/.config/flake8
+echo "max-line-length = 120" >> ~/.config/flake8
+
+ln -s dotfiles/.vimrc .vimrc
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+vim +PluginInstall +qall
+# map capslock to escape:
+# https://vim.fandom.com/wiki/Map_caps_lock_to_escape_in_Windows?utm_source=pocket_mylist
+
+ln -s dotfiles/.tmux.conf .tmux.conf
+mkdir -p .tmux/plugins
+git clone https://github.com/tmux-plugins/tpm .tmux/plugins/tpm
+
+source ~/.bashrc
+
+mkdir download
+cd download
+wget http://ftp.gnu.org/gnu/coreutils/coreutils-8.32.tar.xz
+tar xvJf coreutils-8.32.tar.xz 
+rm coreutils-8.32.tar.xz 
+cd coreutils-8.32/
+wget https://raw.githubusercontent.com/jarun/advcpmv/master/advcpmv-0.8-8.32.patch
+patch -p1 -i advcpmv-0.8-8.32.patch
+./configure 
+make
+sudo cp src/cp /usr/local/bin/cp
+sudo cp src/mv /usr/local/bin/mv
+cd ~
+
+sudo wget https://releases.hashicorp.com/terraform/1.0.7/terraform_1.0.7_linux_amd64.zip
+unzip terraform_1.0.7_linux_amd64.zip
+rm terraform_1.0.7_linux_amd64.zip
+sudo mv terraform /usr/local/bin/
+terraform --version
+
+curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+sudo apt-get update && sudo apt-get install -y packer
+packer --version
+
+# https://dzone.com/articles/wsl2-for-dockerized-net-core-application-subhankar?utm_source=pocket_mylist
+# https://nickjanetakis.com/blog/setting-up-docker-for-windows-and-wsl-to-work-flawlessly?utm_source=pocket_mylist
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo apt-get update && apt-get install -y docker-ce
+docker --version
+#echo "export DOCKER_HOST=tcp://localhost:2375" >> ~/.bashrc && source ~/.bashrc
+sudo usermod -aG docker $USER
+sudo docker info
+
+sudo docker run --rm hello-world
+sudo docker images
+sudo docker image rm hello-world
+
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+docker-compose --version
+
+sudo vim /etc/wsl.conf
+# Now make it look like this and save the file when you're done:
+#[automount]
+#root = /
+#options = "metadata"
+
+
+# IT IS A GOOD PLACE TO MAKE A WSL BACKUP
+# https://www.virtualizationhowto.com/2021/01/wsl2-backup-and-restore-images-using-import-and-export/?utm_source=pocket_mylist
+
+# Installing snapd and linux containers
+# https://www.youtube.com/watch?v=SLDrvGUksv0
+
+sudo apt-get update && sudo apt-get install -yqq daemonize dbus-user-session fontconfig
+sudo daemonize /usr/bin/unshare --fork --pid --mount-proc /lib/systemd/systemd --system-unit=basic.target
+exec sudo nsenter -t $(pidof systemd) -a su - $LOGNAME
+snap version
+sudo lxc list
+sudo lxd init # use dir option for storing backend
+sudo lxc launch ubuntu:20.04 x
+sudo lxc exec x bash
+
+# IT IS A GOOD PLACE TO MAKE A WSL BACKUP AGAIN !!!!
+# after restart Ubuntu wsl might be neccessary to do again:
+#sudo daemonize /usr/bin/unshare --fork --pid --mount-proc /lib/systemd/systemd --system-unit=basic.target
+#exec sudo nsenter -t $(pidof systemd) -a su - $LOGNAME
