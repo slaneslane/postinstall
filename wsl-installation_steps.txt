@@ -94,9 +94,6 @@ sudo vim /etc/wsl.conf
 #options = "metadata"
 
 
-# IT IS A GOOD PLACE TO MAKE A WSL BACKUP
-# https://www.virtualizationhowto.com/2021/01/wsl2-backup-and-restore-images-using-import-and-export/?utm_source=pocket_mylist
-
 # Installing snapd and linux containers
 # https://www.youtube.com/watch?v=SLDrvGUksv0
 
@@ -109,7 +106,34 @@ sudo lxd init # use dir option for storing backend
 sudo lxc launch ubuntu:20.04 x
 sudo lxc exec x bash
 
-# IT IS A GOOD PLACE TO MAKE A WSL BACKUP AGAIN !!!!
-# after restart Ubuntu wsl might be neccessary to do again:
+# HINT: after restart Ubuntu wsl might be neccessary to do again:
 #sudo daemonize /usr/bin/unshare --fork --pid --mount-proc /lib/systemd/systemd --system-unit=basic.target
 #exec sudo nsenter -t $(pidof systemd) -a su - $LOGNAME
+
+
+# IT IS A GOOD PLACE TO MAKE A WSL BACKUP !!!!
+# https://www.virtualizationhowto.com/2021/01/wsl2-backup-and-restore-images-using-import-and-export/?utm_source=pocket_mylist
+
+# AFTER BACUPING SYSTEM REVERT WINDOWS TERMINAL SETTINGS TO:
+#            {
+#                "commandline": "wsl.exe -d UbuntuCustom",
+#                "guid": "{07b6ba66-f3c1-4e0e-acfc-17ec39197462}",
+#                "icon": "ms-appx:///ProfileIcons/{9acb9455-ca41-5af7-950f-6bca1bc9722f}.png",
+#                "name": "Ubuntu",
+#                "hidden": false,
+#                "startingDirectory": "%USERPROFILE%",
+#                "backgroundImage": "C:/Users/swlo/Pictures/linux.jpg",
+#                "backgroundImageOpacity": 0.2,
+#                "useAcrylic": true,
+#                "acrylicOpacity": 0.8,
+#                "colorScheme": "Tango Dark",
+#                "fontFace": "Cascadia Code PL"
+#            }
+
+# Also do the steps to have own user as default:
+sudo vim /etc/wsl.conf
+[user]
+default=slane
+
+# then execute the following command:
+# wsl.exe --terminate <distro name>
