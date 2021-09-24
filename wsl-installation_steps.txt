@@ -135,5 +135,13 @@ sudo vim /etc/wsl.conf
 [user]
 default=slane
 
+# And before restarting change hostname in WSL:
+# https://www.srccodes.com/change-hostname-ubuntu-microsoft-windows-subsystem-for-linux-wsl-wsl2-wsl-conf-unable-resolve-hosts-name-service-not-known-list-running-shutdown-vm-srccodes/
+sudo vim /etc/wsl.conf
+[network]
+hostname=NEW_HOSTNAME
+generateHosts=false
+# + some additional steps in /etc/hosts (replace all occurrences)
+
 # then execute the following command:
 # wsl.exe --terminate <distro name>
