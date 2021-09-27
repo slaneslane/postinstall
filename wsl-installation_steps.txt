@@ -1,3 +1,9 @@
+# -------------------------------------------------------------
+# Enable Developer Mode in Windows for symlincs to work:
+# https://consumer.huawei.com/en/support/content/en-us15594140/
+# -------------------------------------------------------------
+
+
 WSL Installation:
 ------------------------
 sudo apt update && sudo apt upgrade -y
@@ -64,6 +70,16 @@ rm terraform_1.0.7_linux_amd64.zip
 sudo mv terraform /usr/local/bin/
 terraform --version
 
+# Install Azure-CLI
+# https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-linux?pivots=apt
+curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/microsoft.gpg > /dev/null
+AZ_REPO=$(lsb_release -cs)
+echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | sudo tee /etc/apt/sources.list.d/azure-cli.list
+
+rm ~/.azure
+cd ~
+ln -s /c/Users/swlo/.azure .azure
+
 curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
 sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
 sudo apt-get update && sudo apt-get install -y packer
@@ -111,6 +127,23 @@ sudo lxc exec x bash
 #exec sudo nsenter -t $(pidof systemd) -a su - $LOGNAME
 
 
+# Also do the steps to have own user as default:
+sudo vim /etc/wsl.conf
+[user]
+default=slane
+
+# And before restarting change hostname in WSL:
+# https://www.srccodes.com/change-hostname-ubuntu-microsoft-windows-subsystem-for-linux-wsl-wsl2-wsl-conf-unable-resolve-hosts-name-service-not-known-list-running-shutdown-vm-srccodes/
+sudo vim /etc/wsl.conf
+[network]
+hostname=NEW_HOSTNAME
+generateHosts=false
+# + some additional steps in /etc/hosts (replace all occurrences)
+
+# then execute the following command:
+# wsl.exe --terminate <distro name>
+
+
 # IT IS A GOOD PLACE TO MAKE A WSL BACKUP !!!!
 # https://www.virtualizationhowto.com/2021/01/wsl2-backup-and-restore-images-using-import-and-export/?utm_source=pocket_mylist
 
@@ -129,19 +162,3 @@ sudo lxc exec x bash
 #                "colorScheme": "Tango Dark",
 #                "fontFace": "Cascadia Code PL"
 #            }
-
-# Also do the steps to have own user as default:
-sudo vim /etc/wsl.conf
-[user]
-default=slane
-
-# And before restarting change hostname in WSL:
-# https://www.srccodes.com/change-hostname-ubuntu-microsoft-windows-subsystem-for-linux-wsl-wsl2-wsl-conf-unable-resolve-hosts-name-service-not-known-list-running-shutdown-vm-srccodes/
-sudo vim /etc/wsl.conf
-[network]
-hostname=NEW_HOSTNAME
-generateHosts=false
-# + some additional steps in /etc/hosts (replace all occurrences)
-
-# then execute the following command:
-# wsl.exe --terminate <distro name>
