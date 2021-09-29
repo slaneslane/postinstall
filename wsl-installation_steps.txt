@@ -14,7 +14,9 @@ ssh-keygen -t rsa -b 4096
 cat ~/.ssh/id_rsa.pub 
 
 sudo apt install -y vim tmux powerline fonts-powerline git tree mc curl wget net-tools apt-transport-https ca-certificates openssh-server python3-pip python3-venv unzip software-properties-common silversearcher-ag htop net-tools jq libxml2 ansible dconf-cli xsel xdg-utils
-  
+
+export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
+
 git clone git@github.com:slaneslane/scripts.git
 git clone git@github.com:slaneslane/dotfiles.git
 cd dotfiles/
