@@ -45,6 +45,12 @@ touch ~/.config/flake8
 echo "[flake8]" > ~/.config/flake8
 echo "max-line-length = 120" >> ~/.config/flake8
 
+# Install Golang
+wget https://golang.org/dl/go1.17.1.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.17.1.linux-amd64.tar.gz
+rm go1.17.1.linux-amd64.tar.gz
+export PATH=$PATH:/usr/local/go/bin
+
 ln -s dotfiles/.vimrc .vimrc
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 vim +PluginInstall +qall
