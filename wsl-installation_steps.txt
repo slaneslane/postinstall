@@ -6,16 +6,31 @@
 
 WSL Installation:
 ------------------------
+
+###########################
+####### SYS UPGRADE #######
+###########################
+
 sudo apt update && sudo apt upgrade -y
-
-sudo ln -s python3.8 /usr/bin/python
-
-ssh-keygen -t rsa -b 4096
-cat ~/.ssh/id_rsa.pub 
 
 sudo apt install -y vim tmux powerline fonts-powerline git tree mc curl wget net-tools apt-transport-https ca-certificates openssh-server python3-pip python3-venv unzip software-properties-common silversearcher-ag htop net-tools jq libxml2 ansible dconf-cli xsel xdg-utils
 
+############################
+####### GIT SETTINGS #######
+############################
+
 export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
+
+########################
+####### SSL KEYS #######
+########################
+
+ssh-keygen -t rsa -b 4096
+cat ~/.ssh/id_rsa.pub
+
+##########################
+####### MY CONFIGS #######
+##########################
 
 git clone git@github.com:slaneslane/scripts.git
 git clone git@github.com:slaneslane/dotfiles.git
@@ -24,12 +39,13 @@ git checkout vim_tests
 rm .bashrc 
 ln -s dotfiles/.bashrc .bashrc
 
-# Hints for powerline in WSL and Windows Terminal
-# https://medium.com/@hjgraca/style-your-windows-terminal-and-wsl2-like-a-pro-9a2e1ad4c9d0
-# and:
-# https://cloudlumberjack.com/posts/powerup-your-powershell-prompt/?utm_source=pocket_mylist
+######################
+####### PYTHON #######
+######################
 
-export PATH=$PATH:/home/slane/.local/bin
+sudo ln -s python3.8 /usr/bin/python
+
+export PATH=$PATH:$HOME/.local/bin
 echo $PATH
 python -m pip install --upgrade pip
 python -m pip install pep8 flake8
@@ -45,11 +61,27 @@ touch ~/.config/flake8
 echo "[flake8]" > ~/.config/flake8
 echo "max-line-length = 120" >> ~/.config/flake8
 
-# Install Golang
+######################
+####### GOLANG #######
+######################
+
 wget https://golang.org/dl/go1.17.1.linux-amd64.tar.gz
 sudo tar -C /usr/local -xzf go1.17.1.linux-amd64.tar.gz
 rm go1.17.1.linux-amd64.tar.gz
-export PATH=$PATH:/usr/local/go/bin
+#export PATH=$PATH:/usr/local/go/bin # this is kept in my dotfiles/.exports
+
+#########################
+####### POWERLINE #######
+#########################
+
+# Hints for powerline in WSL and Windows Terminal
+# https://medium.com/@hjgraca/style-your-windows-terminal-and-wsl2-like-a-pro-9a2e1ad4c9d0
+# and:
+# https://cloudlumberjack.com/posts/powerup-your-powershell-prompt/?utm_source=pocket_mylist
+
+##########################
+####### VIM & TMUX #######
+##########################
 
 ln -s dotfiles/.vimrc .vimrc
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
@@ -62,6 +94,10 @@ mkdir -p .tmux/plugins
 git clone https://github.com/tmux-plugins/tpm .tmux/plugins/tpm
 
 source ~/.bashrc
+
+#######################
+####### CP & MV #######
+########################
 
 mkdir download
 cd download
@@ -77,11 +113,19 @@ sudo cp src/cp /usr/local/bin/cp
 sudo cp src/mv /usr/local/bin/mv
 cd ~
 
+#########################
+####### TERRAFORM #######
+#########################
+
 sudo wget https://releases.hashicorp.com/terraform/1.0.7/terraform_1.0.7_linux_amd64.zip
 unzip terraform_1.0.7_linux_amd64.zip
 rm terraform_1.0.7_linux_amd64.zip
 sudo mv terraform /usr/local/bin/
 terraform --version
+
+#########################
+####### AZURE-CLI #######
+#########################
 
 # Install Azure-CLI
 # https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-linux?pivots=apt
@@ -93,10 +137,18 @@ rm ~/.azure
 cd ~
 ln -s /c/Users/swlo/.azure .azure
 
+######################
+####### PACKER #######
+######################
+
 curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
 sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
 sudo apt-get update && sudo apt-get install -y packer
 packer --version
+
+######################
+####### DOCKER #######
+######################
 
 # https://dzone.com/articles/wsl2-for-dockerized-net-core-application-subhankar?utm_source=pocket_mylist
 # https://nickjanetakis.com/blog/setting-up-docker-for-windows-and-wsl-to-work-flawlessly?utm_source=pocket_mylist
@@ -104,7 +156,7 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 sudo apt-get update && apt-get install -y docker-ce
 docker --version
-#echo "export DOCKER_HOST=tcp://localhost:2375" >> ~/.bashrc && source ~/.bashrc
+#echo "export DOCKER_HOST=tcp://localhost:2375" >> ~/.bashrc && source ~/.bashrc # this is kept in my dotfiles/.exports
 sudo usermod -aG docker $USER
 sudo docker info
 
@@ -122,22 +174,11 @@ sudo vim /etc/wsl.conf
 #root = /
 #options = "metadata"
 
-# kubectl
-# https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-kubectl-binary-with-curl-on-linux
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-chmod +x ./kubectl
-sudo mv ./kubectl /usr/local/bin/kubectl
-mkdir -p ~/.kube
-ln -sf "/mnt/c/users/$windowsUser/.kube/config" ~/.kube/config
-kubectl version
+#######################
+####### LXC/LXD #######
+#######################
 
-# k3s
-curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.21.2+k3s1 sh -
-
-# k9s
-mkdir ~/docs && curl -s -L https://github.com/derailed/k9s/releases/download/v0.24.15/k9s_Linux_x86_64.tar.gz -o k9s && tar -xvf k9s && chmod 755 k9s && rm LICENSE && mv README.md ~/docs/k9s_README.md && sudo chown root: k9s && sudo mv k9s /usr/local/bin
-
-# Installing snapd and linux containers
+# Installing snapd and linux containers [ALSO SYSTEMD WILL BE INSTALLED]
 # https://www.youtube.com/watch?v=SLDrvGUksv0
 
 sudo apt-get update && sudo apt-get install -yqq daemonize dbus-user-session fontconfig
@@ -153,6 +194,39 @@ sudo lxc exec x bash
 #sudo daemonize /usr/bin/unshare --fork --pid --mount-proc /lib/systemd/systemd --system-unit=basic.target
 #exec sudo nsenter -t $(pidof systemd) -a su - $LOGNAME
 
+#############################
+####### K8s & related #######
+#############################
+
+# !!! Systemd must be installed like it is done in LXC/LXD example
+
+# kubectl
+# https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-kubectl-binary-with-curl-on-linux
+curl -LO "https://dl.k8s.io/release/v1.21.2/bin/linux/amd64/kubectl"
+#curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x ./kubectl
+sudo mv ./kubectl /usr/local/bin/kubectl
+mkdir -p ~/.kube
+#ln -sf "/mnt/c/users/$windowsUser/.kube/config" ~/.kube/config
+kubectl version
+
+# k3s
+# Note: k3s uses: local-path-provisioner and saves volume data in the /var/lib/rancher/k3s/data folder
+curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.21.2+k3s1 sh -
+sudo cp /etc/rancher/k3s/k3s.yaml $HOME/.kube
+sudo chown $USER $HOME/.kube/k3s.yaml
+sudo k3s server # might fail as already running, port already in use
+export KUBECONFIG=$HOME/.kube/config:$HOME/.kube/k3s.yaml
+kubectl config use-context default
+# to check if it's working:
+kubectl get ppo --all-namespaces
+
+# k9s
+mkdir ~/docs && curl -s -L https://github.com/derailed/k9s/releases/download/v0.24.15/k9s_Linux_x86_64.tar.gz -o k9s && tar -xvf k9s && chmod 755 k9s && rm LICENSE && mv README.md ~/docs/k9s_README.md && sudo chown root: k9s && sudo mv k9s /usr/local/bin
+
+############################
+####### SYS CONFIG 2 #######
+############################
 
 # Also do the steps to have own user as default:
 sudo vim /etc/wsl.conf
