@@ -221,7 +221,7 @@ curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.21.2+k3s1 sh -
 sudo cp /etc/rancher/k3s/k3s.yaml $HOME/.kube
 sudo chown $USER $HOME/.kube/k3s.yaml
 sudo k3s server # might fail as already running, port already in use
-# sudo k3s server -l k3s.log # if we would like to use logging to file , or anohter options - there are a lot!
+# sudo k3s server -l k3s.log & # if we would like to use logging to file , or anohter options - there are a lot!
 export KUBECONFIG=$HOME/.kube/config:$HOME/.kube/k3s.yaml
 kubectl config use-context default
 # to check if it's working:
