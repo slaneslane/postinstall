@@ -213,8 +213,10 @@ kubectl version
 # k3s
 # Note: k3s uses: local-path-provisioner and saves volume data in the /var/lib/rancher/k3s/data folder
 curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.21.2+k3s1 sh -
-# another option is to write kube config accessible for non root user (it's not needed here if next staeps are done)
+# another option is to write kube config accessible for non root user (it's not needed here if next steps are done) <- this is not secured!
 # curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.21.2+k3s1 INSTALL_K3S_EXEC="--write-kube-config-mode 644" sh -
+# separate nodes (https://www.youtube.com/watch?v=2LNxGVS81mE&t=2s , about 26 minute) 
+# curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--disable-agent --tls-san PUBLIC_IP" sh -
 
 sudo cp /etc/rancher/k3s/k3s.yaml $HOME/.kube
 sudo chown $USER $HOME/.kube/k3s.yaml
