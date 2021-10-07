@@ -213,13 +213,16 @@ kubectl version
 # k3s
 # Note: k3s uses: local-path-provisioner and saves volume data in the /var/lib/rancher/k3s/data folder
 curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.21.2+k3s1 sh -
+# another option is to write kube config accessible for non root user (it's not needed here if next staeps are done)
+# curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.21.2+k3s1 INSTALL_K3S_EXEC="--write-kube-config-mode 644" sh -
+
 sudo cp /etc/rancher/k3s/k3s.yaml $HOME/.kube
 sudo chown $USER $HOME/.kube/k3s.yaml
 sudo k3s server # might fail as already running, port already in use
 export KUBECONFIG=$HOME/.kube/config:$HOME/.kube/k3s.yaml
 kubectl config use-context default
 # to check if it's working:
-kubectl get ppo --all-namespaces
+kubectl get po --all-namespaces
 
 # k9s
 mkdir ~/docs && curl -s -L https://github.com/derailed/k9s/releases/download/v0.24.15/k9s_Linux_x86_64.tar.gz -o k9s && tar -xvf k9s && chmod 755 k9s && rm LICENSE && mv README.md ~/docs/k9s_README.md && sudo chown root: k9s && sudo mv k9s /usr/local/bin
