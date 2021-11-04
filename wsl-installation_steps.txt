@@ -70,15 +70,25 @@ sudo tar -C /usr/local -xzf go1.17.1.linux-amd64.tar.gz
 rm go1.17.1.linux-amd64.tar.gz
 #export PATH=$PATH:/usr/local/go/bin # this is kept in my dotfiles/.exports
 
+######################
+######## RUST ########
+######################
+
+# https://www.rust-lang.org/tools/install
+
 #########################
 ####### POWERLINE #######
 #########################
+
+To turn on/off admin rights to run scripts
+# Set-ExecutionPolicy RemoteSigned
+# Set-ExecutionPolicy Restricted
 
 # Hints for powerline in WSL and Windows Terminal
 # https://medium.com/@hjgraca/style-your-windows-terminal-and-wsl2-like-a-pro-9a2e1ad4c9d0
 # and:
 # https://cloudlumberjack.com/posts/powerup-your-powershell-prompt/?utm_source=pocket_mylist
-# maybe the most important is here (fixing bad symbols):
+# maybe the most important is here (fixing bad symbols) Cascadia Code PL:
 # https://www.hanselman.com/blog/how-to-make-a-pretty-prompt-in-windows-terminal-with-powerline-nerd-fonts-cascadia-code-wsl-and-ohmyposh
 # https://github.com/microsoft/cascadia-code/releases/?WT.mc_id=-blog-scottha
 
