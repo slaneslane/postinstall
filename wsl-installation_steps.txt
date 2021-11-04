@@ -78,6 +78,9 @@ rm go1.17.1.linux-amd64.tar.gz
 # https://medium.com/@hjgraca/style-your-windows-terminal-and-wsl2-like-a-pro-9a2e1ad4c9d0
 # and:
 # https://cloudlumberjack.com/posts/powerup-your-powershell-prompt/?utm_source=pocket_mylist
+# maybe the most important is here (fixing bad symbols):
+# https://www.hanselman.com/blog/how-to-make-a-pretty-prompt-in-windows-terminal-with-powerline-nerd-fonts-cascadia-code-wsl-and-ohmyposh
+# https://github.com/microsoft/cascadia-code/releases/?WT.mc_id=-blog-scottha
 
 ##########################
 ####### VIM & TMUX #######
@@ -117,9 +120,9 @@ cd ~
 ####### TERRAFORM #######
 #########################
 
-sudo wget https://releases.hashicorp.com/terraform/1.0.7/terraform_1.0.7_linux_amd64.zip
-unzip terraform_1.0.7_linux_amd64.zip
-rm terraform_1.0.7_linux_amd64.zip
+sudo wget https://releases.hashicorp.com/terraform/1.0.10/terraform_1.0.10_linux_amd64.zip
+unzip terraform_1.0.10_linux_amd64.zip
+rm terraform_1.0.10_linux_amd64.zip
 sudo mv terraform /usr/local/bin/
 terraform --version
 
